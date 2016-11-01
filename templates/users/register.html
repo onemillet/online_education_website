@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    {% load staticfiles %}
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+<title>用户注册</title>
+<link href="{% static 'css/base.css' %}" rel="stylesheet">
+<link href="{% static 'css/microoh-v5.css' %}" rel="stylesheet">
+<link href="{% static 'css/animate.css' %}" rel="stylesheet">
+<link href="{% static 'css/develop.css' %}" rel="stylesheet">
+<!--[if lt IE 9]>
+<script src="js/html5shiv.min.js"></script>
+<script src="js/respond.min.js"></script>
+<![endif]-->
+</head>
+<body>
+  <header class="mobil-header">
+  <a href="/" class="a-left">返回</a>注册<a href="/" class="a-right">登陆</a>
+</header>
+<div class="mobil-login-register">
+  <section class="box-register v5-input-txt" id="box-register">
+    <ul class="register-tabs" role="tablist">
+      <li class="active"><a href="#register-email" role="tab" data-toggle="tab">邮箱注册</a></li>
+      <li><a href="#register-mobile" role="tab" data-toggle="tab">手机注册</a></li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane active" id="register-email">
+        <div class="form-group "><label>请输入邮箱</label>{{ form.email }}</div>
+        <div class="form-group"><label>请输入密码</label>{{ form.password }}</div>
+        <div class="form-group cf"><label>验证（必填</label><br />{{ form.captcha }}<button id='js-captcha-refresh' type="button">刷新验证码</button></div>
+      </div>
+      <div class="tab-pane" id="register-mobile">
+        <div class="form-group cf">
+          <input type="text" class="form-control form-control-phone fl" placeholder="请输入手机号">
+          <span class="send-code fr"><button type="button" class="btn btn-micv5 btn-send">发送验证码</button></span>
+        </div>
+        <div class="form-group"><input type="text" class="form-control" placeholder="请输入短信验证码"></div>
+        <div class="form-group"><input type="password" class="form-control" placeholder="请输入密码"></div>
+        <div class="form-group cf"><input type="text" class="form-control form-control-captcha fl" placeholder="请输入验证码"><span class="v5-yzm fr"><a href=""><img src="{% static 'test/yzm.jpg' %}">换一张</a></span></div>
+      </div>
+    </div>
+    <p class="good-tips">已经有账号？<a href="/">立即登录</a></p>
+    <div>
+      <button id="reg_submit" type="button" class="btn btn-micv5 btn-block">注册并登录</button>
+    </div>
+    <div id="reg_error_notify" class="tips-error bg-danger">错误提示</div>
+  </section>
+</div>
+
+</body>
+<script src="{% static 'js/jquery-1.11.1.min.js' %}"></script>
+<script src="{% static 'js/jquery-migrate-1.2.1.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/microoh-v5.js' %}"></script>
+<script src="{% static 'js/ie10-viewport-bug-workaround.js' %}"></script>
+<script>
+    $('#js-captcha-refresh').click(function(){
+         $.get("?newsn=1", function(result){
+            alert(result);
+             $('.captcha').attr("src",result);
+             $('#id_captcha_0').attr("value",result.split('/')[3]);
+          });
+    return false;
+    });
+    $('#reg_submit').click(function(){
+        var email = $('#id_email').val();
+        var password = $('#id_password').val();
+        var id_captcha_0=$('#id_captcha_0').val();
+        var id_captcha_1 = $('#id_captcha_1').val();
+        //console.log(email,password,captcha)
+        $.ajax({
+            type:'POST',
+            url:'{% url 'users:register' %}',
+            data:{'email':email,'password':password,'captcha_0':id_captcha_0,
+            'captcha_1':id_captcha_1},
+            dataType:'text',
+            contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+            success:function(data,textstatus,XMLHttpRequest){
+                        console.log(data);
+                        console.log(data.length);
+                        if(data=='success'){
+                            //window.location.reload();
+                            window.history.back(-1);
+                            alert('注册成功，请登录邮箱完成最后一步验证')
+                        }
+                        else{
+                            $('#reg_error_notify').text(data);
+                        }
+                  }
+        })
+    });
+</script>
+</html>

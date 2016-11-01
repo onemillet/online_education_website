@@ -1,0 +1,8 @@
+Django==1.8.2
+Pillow==3.0.0
+backports.ssl-match-hostname==3.4.0.2
+certifi==2015.9.6.2
+django-simple-captcha==0.4.6
+six==1.10.0
+tornado==4.2.1
+mysql-python==1.2.3

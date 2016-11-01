@@ -1,0 +1,66 @@
+$('#login_submit').click(function() {
+     var email=$('#login_email').val();
+     var password=$('#login_password').val();
+     $.ajax({
+         url:'{% url 'users:login' %}',
+         type:'POST',
+         data:{'email':email,'password':password},
+         dataType:'text',
+         contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+                  success:function(data,textstatus,XMLHttpRequest){
+                        console.log(data);
+                        console.log(data.length);
+                        if(data.length>20){
+                            window.location.reload();
+                        }
+                        else{
+                            $('#login_error_notify').text(data);
+                        }
+                  }
+     })
+  })
+
+$('#register_submit').click(function() {
+     var email=$('#register_email').val();
+     var password=$('#register_password').val();
+     var identify=$('#identify').val();
+     $.ajax({
+         url:'{% url 'users:register' %}',
+         type:'POST',
+         data:{'email':email,'password':password,'identify':identify},
+         dataType:'text',
+         contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+                  success:function(data,textstatus,XMLHttpRequest){
+                        console.log(data);
+                        console.log(data.length);
+                        if(data.length>20){
+                            window.location.reload();
+                        }
+                        else{
+                            $('#register_error_notify').text(data);
+                        }
+                  }
+     })
+  })
+
+$('#forget_submit').click(function() {
+     var email=$('#forget_email').val();
+     $('#forget_submit').text('提交中...');
+     $.ajax({
+         url:'{% url 'users:forget' %}',
+         type:'POST',
+         data:{'email':email},
+         dataType:'text',
+         contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+                  success:function(data,textstatus,XMLHttpRequest){
+                        $('#forget_submit').text('提交');
+                        if(data == 'success'){
+                            alert('找回密码申请提交成功，请登录邮箱找回密码');
+                            $('#forget_error_notify').text(data);
+                        }
+                        else{
+                            $('#forget_error_notify').text(data);
+                        }
+                  }
+     })
+  })

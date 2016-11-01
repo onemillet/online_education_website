@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    {% load staticfiles %}
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+<title>个人资料-学生</title>
+<link href="{% static 'css/base.css' %}" rel="stylesheet">
+<link href="{% static 'css/microoh-v5.css' %}" rel="stylesheet">
+<link href="{% static 'css/animate.css' %}" rel="stylesheet">
+<link href="{% static 'css/develop.css' %}" rel="stylesheet">
+
+<link href="{% static 'js/kindeditor-4.1.10/themes/default/default.css' %}">
+<link href="{% static 'js/kindeditor-4.1.10/plugins/code/prettify.css' %}">
+<script src="{% static 'js/kindeditor-4.1.10/kindeditor-min.js' %}"></script>
+<script src="{% static 'js/kindeditor-4.1.10/lang/zh_CN.js' %}"></script>
+<script src="{% static 'js/kindeditor-4.1.10/config.js' %}"></script>
+<script src="{% static 'js/kindeditor-4.1.10/plugins/code/prettify.js' %}"></script>
+<!--[if lt IE 9]>
+<script src="js/html5shiv.min.js"></script>
+<script src="js/respond.min.js"></script>
+<![endif]-->
+</head>
+
+<body>
+<div class="microoh-main">
+  <header class="navbar navbar-default navbar-fixed-top navbar-v5" data-spy="affix" data-offset-top="64">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="microoh-navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="" title="麦子学院"><img src="{% static 'images/logo.png' %}" class="hidden"><img src="{% static 'images/logo-font.png' %}"></a>
+      </div>
+      <div class="collapse navbar-collapse" id="microoh-navbar-collapse">
+        <ul class="nav navbar-nav navbar-left">
+          <li><a href="">职业课程</a></li>
+          <li><a href="">论坛</a></li>
+          <li><a href="">移动APP</a></li>
+        </ul>
+        <form class="navbar-form navbar-left" role="search">
+          <div class="form-group">
+            <i class="v5-icon v5-icon-search"></i>
+            <input type="text" class="form-control" id="search" placeholder="搜索你感兴趣的课程">
+          </div>
+          <div class="search-dp" id="hotkeyword">
+            <!--推荐关键词-->
+            <div class="hotkeyword">
+              <h4>推荐搜索关键词</h4>
+              <ul class="cf">
+                <li><a href="">Android</a></li>
+                <li><a href="">Android</a></li>
+                <li><a href="">WP</a></li>
+                <li><a href="">Android</a></li>
+                <li><a href="">WP</a></li>
+                <li><a href="">Android</a></li>
+                <li><a href="">WP</a></li>
+                <li><a href="">Android</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="search-dp" id="keyword-group">
+            <!--搜索结果-->
+            <div class="keyword-group">
+              <dl>
+                <dt>职业课程</dt>
+                <dd>
+                  <div><span style="background-color:#A8C310;"><img src="{% static 'images/course/android.png' %}"></span><a href="">Android应用开发工程</a></div>
+                  <div><span style="background-color:#5184CF;"><img src="{% static 'images/course/android.png' %}"></span><a href="">Android架构设计师</a></div>
+                  <div><span style="background-color:#5DB836;"><img src="{% static 'images/course/android.png' %}"></span><a href="">Android的层嵌入式工</a></div>
+                </dd>
+              </dl>
+              <dl>
+                <dt>课程</dt>
+                <dd>
+                  <div><span style="background-color:#A8C310;"><img src="{% static 'images/course/android.png' %}"></span><a href="">Android应用开发工程</a></div>
+                  <div><span style="background-color:#5184CF;"><img src="{% static 'images/course/android.png' %}"></span><a href="">Android架构设计师</a></div>
+                  <div><span style="background-color:#5DB836;"><img src="{% static 'images/course/android.png' %}"></span><a href="">Android的层嵌入式工</a></div>
+                </dd>
+              </dl>
+            </div>
+          </div>
+        </form>
+        <div class="v5-topbar-login">
+          {% if not request.user.is_authenticated %}
+          <div class="v5-topbar-login-off">
+                <a href="#" data-toggle="modal" data-target="#loginModal">登录</a>
+          </div>
+          {% else %}
+          <div class="v5-topbar-login-on cf">
+            <!--这里是登录后的内容-->
+          <dl>
+              <dt>
+                <a href="#" class="dt-username"><span>{{ request.user.username }}</span><i class="v5-icon v5-icon-rd"></i></a>
+              </dt>
+            </dl>
+            <!--<a href="" class="dt-usermsg"><i class="v5-icon v5-icon-nomsg"></i></a>-->
+            <a href="" class="dt-usermsg"><i class="v5-icon v5-icon-havemsg"></i><em>3</em></a>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </header>
+  
+  <div class="container-fluid container-banner">
+    <div class="container container-uinfo">
+      <div class="header-uinfo">
+        <div class="uinfo-head"><img src="{{ request.user.avatar_url }}"></div>
+        <div class="uinfo-con">
+          <div class="user-name cf">
+            <span>{{ request.user.username }}</span>
+            <img src="{% static 'images/vip.png' %}" id="viptips">
+            <img src="{% static 'images/android.png' %}">
+          </div>
+          <div class="course-info">
+            <span>学习：236小时</span>
+            <span>上课：28门</span>
+          </div>
+        </div>
+      </div>
+      <div class="uc-nav">
+        <ul>
+          <li><a href="个人中心-我的课程(学生).html">我的课程</a></li>
+          <li><a href="个人中心-我的收藏(学生).html">我的收藏</a></li>
+          <li><a href="个人中心-我的证书(学生).html">我的证书</a></li>
+          <li><a href="个人中心-我的消息(学生).html">我的消息</a><span class="msg-tips">1</span></li>
+          <li class="active"><a href="个人中心-个人资料(学生).html">个人资料</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="uc-boxa">
+    <div class="uc-h1">基本资料</div>
+    <form class="form-horizontal uc-form" role="form">
+      <div class="form-group">
+        <label for="" class="col-sm-2 control-label v5-hd-lable v5-gutter">头像</label>
+        <div class="col-sm-10 dis-table v5-gutter">
+          <div class="user-hd dis-table-cell"><img src="{{ request.user.avatar_middle_thumbnall }}"></div>
+          <div class="update-hd dis-table-cell">
+            <p>支持jpg、gif、png或bmp格式的图片，建议文件小于20M</p>
+            <a href="#" data-toggle="modal" data-target="#cutimgModal">更改头像</a>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="" class="col-sm-2 control-label v5-gutter">昵称</label>
+        <div class="col-sm-4 v5-gutter">
+          <input name="nickname" id="nickname" type="text" class="form-control" value="{{ username }}" placeholder="">
+        </div>
+        <div class="col-sm-6 v5-control-label"></div>
+      </div>
+      <div class="form-group">
+        <label for="" class="col-sm-2 control-label v5-gutter">城市</label>
+        <div class="col-sm-3 v5-gutter">
+          <select id="province" class="form-control" onchange="prClick()">
+            <option>{{ province }}</option>
+            <option></option>
+            <option>安徽</option>
+            <option>湖南</option>
+            <option>广东</option>
+          </select>
+        </div>
+        <div class="col-sm-3 v5-gutter">
+          <select id="city" class="form-control">
+            <option>{{ city }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="" class="col-sm-2 control-label v5-gutter">Q Q</label>
+        <div class="col-sm-4 v5-gutter">
+          <input name="qq" id="qq" type="text" class="form-control" value="{{ qq }}" placeholder="">
+        </div>
+        <div class="col-sm-6 v5-control-label"></div>
+      </div>
+      <div class="form-group">
+        <label for="" class="col-sm-2 control-label v5-gutter">手机</label>
+        <div class="col-sm-6 v5-gutter v5-control-label">
+          <a href="#" data-toggle="modal" data-target="" class="link-default">新增</a><span class="v5-gutter">添加手机后可增强账号安全性</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="" class="col-sm-2 control-label v5-gutter">邮箱</label>
+        <div class="col-sm-6 v5-gutter v5-control-label">
+          <span>{{ request.user.email }}</span><a href="#" data-toggle="modal" data-target="#resetemailModal" class="link-default v5-gutter">修改</a>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="" class="col-sm-2 control-label v5-gutter">密码</label>
+        <div class="col-sm-10 v5-gutter v5-control-label">
+          <a href="#" data-toggle="modal" data-target="#resetpswModal" class="link-default">修改密码</a>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-2 v5-gutter">
+          <button id="stu_save" type="button" class="btn btn-micv5 btn-block">保存</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="v5-footer">
+    <div class="container">
+      <div class="v5-footer-container">
+        <div class="v5-footer-bottom">
+          <p>© 2012-2014 maiziedu.com | 服务条款 | 蜀ICP备13014270号-4 Version 4.0.1 release20140721.1</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--登录、注册相关的组件-->
+{% include 'users/users_element.html' %}
+
+<!--修改头像-->
+<div class="modal fade" id="cutimgModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xmd">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="registerModalLabel">图片裁剪</h4>
+      </div>
+      <div class="modal-body">
+        <div class="cutimgbox"></div>
+        <div class="btn-box-cutimg">
+        <!--form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+          <input id="avatar" name="imgFile" type="file" value="选择图片" />
+          <input type="submit" value="上传" />
+          <button type="button" class="btn btn-xxlg btn-micv5 btn-block">保存</button>
+        </form-->
+            <input name="F_Main_Pic" type="text" id="F_Main_Pic" value="" size="28" /> <input name="insertfile" type="button" id="insertfile" value="选择图片" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--修改密码-->
+<div class="modal fade" id="resetpswModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="forgetpswModalLabel">修改密码</h4>
+      </div>
+      <div class="modal-body">
+        <section class="box-resetpsw v5-input-txt" id="box-resetpsw">
+          <ul>
+            <li class="form-group has-error"><input id="old_password1" type="password" class="form-control" placeholder="请输入原密码"></li>
+            <li class="form-group"><input id="old_password2" type="password" class="form-control" placeholder="请输入新密码"></li>
+            <li class="form-group"><input id="new_password" type="password" class="form-control" placeholder="请确认新密码"></li>
+          </ul>
+          <div>
+            <button id="password_submit" type="button" class="btn btn-micv5 btn-block">提交</button>
+          </div>
+          <div id="error_notify" class="tips-error bg-danger">错误提示</div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--修改邮箱-->
+<div class="modal fade" id="resetemailModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="resetemailModalLabel">修改邮箱</h4>
+      </div>
+      <div class="modal-body">
+        <section class="box-forgetpsw v5-input-txt" id="box-forgetpsw">
+          <ul>
+            <li class="form-group has-error"><input id="reset_email" name="reset_email" type="text" class="form-control" placeholder="请输入新邮箱"></li>
+          </ul>
+          <div>
+            <button id="reseteamil_submit" type="button" class="btn btn-micv5 btn-block">提交</button>
+          </div>
+          <div id="reset_email_error_notify" class="tips-error bg-danger">错误提示</div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="{% static 'js/jquery-1.11.1.min.js' %}"></script>
+<script src="{% static 'js/jquery-migrate-1.2.1.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/microoh-v5.js' %}"></script>
+<script src="{% static 'js/ie10-viewport-bug-workaround.js' %}"></script>
+<script type="text/javascript">
+    $(function () {
+        {% include 'users/users_jquery.html' %}
+        $('#stu_save').click(function () {
+            username=$('#nickname').val();
+            province=$('#province').val();
+            city=$('#city').val();
+            qq=$('#qq').val();
+            console.log(username,qq);
+            $.ajax({
+                type:'POST',
+                url:'{% url 'users:stu_info_save' %}',
+                data:{'username':username,'province':province,'city':city,'qq':qq},
+                dataType:'text',
+                contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+                success:function(data,textstatus,XMLHttpRequest){
+                    if(data=='success'){
+                        window.location.reload();
+                    }
+                }
+            })
+        });
+
+        $('#password_submit').click(function () {
+            old_password1=$('#old_password1').val();
+            old_password2=$('#old_password2').val();
+            new_password=$('#new_password').val();
+            $.ajax({
+                type:'POST',
+                url:'{% url 'users:change_password' %}',
+                data:{'old_password1':old_password1,'old_password2':old_password2,
+                'new_password':new_password},
+                dataType:'text',
+                contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+                success:function(data,textstatus,XMLHttpRequest){
+                    if(data=='success'){
+                        window.location.reload();
+                    }
+                    else{
+                        $('#error_notify').text(data)
+                    }
+                }
+            })
+        })
+    });
+
+    $('#reseteamil_submit').click(function () {
+        var email = $('#reset_email').val();
+        $.ajax({
+            type:'POST',
+            url:'{% url 'users:change_email' %}',
+            data:{'email':email},
+            dataType:'text',
+            contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+            success:function(data,textstatus,XMLHttpRequest){
+                    console.log(data);
+                    if(data=='success'){
+                        window.location.reload();
+                    }
+                    else{
+                        $('#reset_email_error_notify').text(data)
+                    }
+                }
+        })
+    })
+</script>
+<script type="text/javascript">
+    function prClick() {
+        province=document.getElementById('province');
+        p_value=province.value;
+
+        var city=document.getElementById('city');
+        c_length=city.options.length;
+        if(c_length>0){
+            for(var i=0;i<c_length;i++){
+                city.options.remove(0);
+            }
+        }
+        var city1=['安庆','合肥','芜湖'];
+        var city2=['长沙','湘潭','株洲'];
+        var city3=['广州','深圳','珠海'];
+        if(p_value=='安徽') {
+            for (i = 0; i < 3; i++) {
+                node = new Option(city1[i]);
+                city.appendChild(node);
+            }
+        }
+        else if(p_value=='湖南'){
+            for (i = 0; i < 3; i++){
+                node = new Option(city2[i]);
+                city.appendChild(node);
+            }
+        }
+        else if(p_value=='广东'){
+            for (i = 0; i < 3; i++) {
+                node = new Option(city3[i]);
+                city.appendChild(node);
+            }
+        }
+    }
+
+    KindEditor.ready(function (K) {
+        var editor = K.editor({
+        cssPath : '{% static 'js/kindeditor-4.1.10/plugins/code/prettify.css' %}',
+        uploadJson : '/admin/upload/kindeditor',
+        allowFileManager : true
+    });
+    K('#insertfile').click(function() {
+        editor.loadPlugin('image', function() {
+            editor.plugin.imageDialog({
+            imageUrl : K('#F_Main_Pic').val(),
+            clickFn : function(url, title, width, height, border, align) {
+                K('#F_Main_Pic').val(url);
+                editor.hideDialog();
+            }
+            });
+        });
+    });
+});
+</script>
+</body>
+</html>
